@@ -101,6 +101,27 @@ void printWords(char* str, int** evens, int** odds, int* evens_size, int* odds_s
     free(newString);
 }
 
+int getSimilarityScore(int_arr_t* arr1, int_arr_t* arr2) {
+    int len1 = arr1->size;
+    int len2 = arr2->size;
+
+    int similarity = 0;
+
+    for (int i = 0; i < len1; i++) {
+        int value = arr1->arr[i];
+        int count = 0;
+
+        for (int j = 0; j < len2; j++) {
+            if (value == arr2->arr[j]) {
+                count++;
+            }
+        }
+
+        similarity += (value * count);
+    }
+    return similarity;
+}
+
 int getTotalDifference(int_arr_t* arr1, int_arr_t* arr2) {
     int len = 0;
     if (arr1->size < arr2->size) {
@@ -151,8 +172,10 @@ int main() {
     sOdds.size = odds_size;
 
     int total_diff = getTotalDifference(&sEvens, &sOdds);
+    int similarity = getSimilarityScore(&sEvens, &sOdds);
 
-    printf("%d\n", total_diff);
+    printf("Difference: %d\n", total_diff);
+    printf("Similarity: %d\n", similarity);
 
     free(evens);
     free(odds);
